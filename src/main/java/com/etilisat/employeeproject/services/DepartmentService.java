@@ -2,6 +2,7 @@ package com.etilisat.employeeproject.services;
 
 import java.util.ArrayList;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +32,14 @@ public class DepartmentService {
         } else {
             return new ArrayList<Department>();
         }
+    }
+    public Page<Department> getAllDepartments(int page,int size)
+    {
+    	//Pageable elements = PageRequest.of(start, noofelements);
+    	Page<Department> departmentList =  repository.findAll(PageRequest.of(page,size));
+         
+          return departmentList;
+
     }
      
     public Department getDepartmentId(Long id) throws RecordNotFoundException 
@@ -65,12 +74,15 @@ public class DepartmentService {
     public void deleteDepartmentById(Long id) throws RecordNotFoundException 
     {
         Optional<Department> department = repository.findById(id);
-         
+        try {
         if(department.isPresent()) 
         {
             repository.deleteById(id);
         } else {
-            throw new RecordNotFoundException("No employee record exist for given id");
+            throw new RecordNotFoundException("No department record exist for given id");
+        }
+        }catch(Exception e) {
+        	throw new RecordNotFoundException("Cannot delete department as it's associated with employees");
         }
     } 
 }

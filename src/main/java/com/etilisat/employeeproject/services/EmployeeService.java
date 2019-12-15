@@ -72,6 +72,7 @@ public class EmployeeService {
             newEntity.setHireDate(entity.getHireDate());
             newEntity.setManagerId(entity.getManagerId());
             newEntity.setPhoneNumber(entity.getPhoneNumber());
+            newEntity.setSalary(entity.getSalary());
             newEntity = repository.save(newEntity);
              
             return newEntity;
